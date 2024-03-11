@@ -13,13 +13,16 @@ class Semaphore extends Thread {
 
     public void run() {
         while (true) {
-        	while (!this.isGreen) {
-        		try {
-                    this.wait(); // Espera por uma notificação
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-        	}
+        	synchronized (this) {
+        		while (!this.isGreen) {
+            		try {
+                        wait(); // Espera por uma notificação
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+            	}
+			}
+        	
         	
             isGreen = true;
             System.out.println("Semáforo " + id + " está verde");
@@ -35,7 +38,6 @@ class Semaphore extends Thread {
             
             if (nextSemaphore != null) {
                 synchronized (nextSemaphore) {
-                	notify();
                 	nextSemaphore.isGreen = true;
                     nextSemaphore.notify();
                 }
