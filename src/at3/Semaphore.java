@@ -16,7 +16,7 @@ class Semaphore extends Thread {
         	synchronized (this) {
         		while (!this.isGreen) {
             		try {
-                        wait(); // Espera por uma notificação
+                        wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
